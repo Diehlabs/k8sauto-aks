@@ -4,14 +4,18 @@ provider "azurerm" {
 
 locals {
   tags = {
-    location    = "westus"
-    environment = "dev"
+    region            = "westus"
+    environment       = "dev"
+    cost_center       = "06660"
+    owner             = "t-go"
+    product           = "private-aks"
+    technical_contact = "def-not-me"
   }
 }
 
 resource "azurerm_resource_group" "aks" {
   name     = "aks"
-  location = local.tags.location
+  location = local.tags.region
   tags     = local.tags
 }
 
