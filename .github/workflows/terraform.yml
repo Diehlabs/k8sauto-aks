@@ -21,7 +21,7 @@ env:
 jobs:
   terraform_plan:
     runs-on: ubuntu-latest
-    name: Terraform Plan
+    name: Terraform Run
     steps:
     - uses: actions/checkout@v2
     - uses: hashicorp/setup-terraform@v1
@@ -75,7 +75,7 @@ jobs:
             body: output
           })
 
-    # # - name: Terraform Apply
-    # #   id: apply
-    # #   if: github.event_name == 'push' # && contains(['refs/heads/main','refs/heads/master'], github.ref)
-    # #   run: terraform apply -auto-approve
+    - name: Terraform Apply
+      id: apply
+      if: github.event_name == 'push' # && contains(['refs/heads/main','refs/heads/master'], github.ref)
+      run: terraform apply -auto-approve
