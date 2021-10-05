@@ -17,8 +17,8 @@ resource "azurerm_resource_group" "aks" {
 
 resource "azurerm_network_security_group" "aks_nsg" {
   name                = "paks_nsg"
-  location            = tkg.location
-  resource_group_name = tkg.name
+  location            = azurerm_resource_group.aks.location
+  resource_group_name = azurerm_resource_group.aks.name
 }
 
 resource "azurerm_virtual_network" "aksvnet" {
