@@ -31,7 +31,7 @@ resource "azurerm_virtual_network" "aksvnet" {
   // ddos_protection_plan {
   //   id     = azurerm_network_ddos_protection_plan.example.id
   //   enable = true
-  }
+  // }
 
   subnet {
     name           = "akscontrolsub"
