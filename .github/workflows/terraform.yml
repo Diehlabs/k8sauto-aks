@@ -75,7 +75,7 @@ jobs:
             body: output
           })
 
-    # # - name: Terraform Apply
-    # #   id: apply
-    # #   if: github.event_name == 'push' # && contains(['refs/heads/main','refs/heads/master'], github.ref)
-    # #   run: terraform apply -auto-approve
+    - name: Terraform Apply
+      id: apply
+      if: github.event_name == 'push' # && contains(['refs/heads/main','refs/heads/master'], github.ref)
+      run: terraform apply -auto-approve
