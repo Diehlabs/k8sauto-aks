@@ -15,11 +15,11 @@ resource "azurerm_resource_group" "aks" {
   tags     = local.tags
 }
 
-// resource "azurerm_network_security_group" "tkg_nsg" {
-//   name                = "tanzu_nsg"
-//   location            = tkg.location
-//   resource_group_name = tkg.name
-// }
+resource "azurerm_network_security_group" "aks_nsg" {
+  name                = "paks_nsg"
+  location            = tkg.location
+  resource_group_name = tkg.name
+}
 
 resource "azurerm_virtual_network" "aksvnet" {
   name                = "aksnet"
@@ -72,5 +72,5 @@ module "paks" {
     username = "myk8sboss"
     sshkey   = tls_private_key.paks.public_key_openssh
   }
-  #network_security_group = azurerm_network_security_group.aks
+  network_security_group = azurerm_network_security_group.aks_nsg
 }
