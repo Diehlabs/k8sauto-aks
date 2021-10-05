@@ -1,0 +1,29 @@
+name: Terraform Destroy Run
+on:
+  workflow_dispatch:
+env:
+  TF_VERSION: "1.0.8"
+  ARM_CLIENT_ID: '2c7dadc2-5dba-4670-b798-27d59a430217'
+  ARM_CLIENT_SECRET: ${{ secrets.TGO_ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: 'e5c064d7-9c8f-4e8d-ba57-5da9f1610cb3'
+  ARM_TENANT_ID: 'ea7c73d0-fb18-4161-8331-8341717ba99c'
+
+jobs:
+  terraform_destroy:
+    runs-on: ubuntu-latest
+    name: Terraform Destroy
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: ${{ env.TF_VERSION }}
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }} # only used for this workspace
+
+    - name: Terrform Init
+      id: tf_init
+      run: terraform init
+
+    - name: Terraform Destroy
+      id: apply
+      run: terraform apply -auto-approve -destroy
