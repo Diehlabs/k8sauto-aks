@@ -55,10 +55,10 @@ resource "tls_private_key" "paks" {
 }
 
 module "paks" {
-  source              = "./modules/aks"
-  tags                = local.tags
-  resource_group_name = azurerm_resource_group.aks.name
-  subnet              = azurerm_subnet.aksnodesub
+  source         = "./modules/aks"
+  tags           = local.tags
+  resource_group = azurerm_resource_group.aks
+  subnet         = azurerm_subnet.aksnodesub
   api_server_authorized_ip_ranges = [
     azurerm_virtual_network.aksvnet.address_space[0]
   ]
