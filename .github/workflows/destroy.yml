@@ -1,4 +1,4 @@
-name: Terraform Configuration Run
+name: Terraform Destroy Run
 on:
   workflow_dispatch:
 env:
@@ -14,7 +14,7 @@ jobs:
     name: Terraform Destroy
     steps:
     - uses: actions/checkout@v2
-    
+
     - uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: ${{ env.TF_VERSION }}
