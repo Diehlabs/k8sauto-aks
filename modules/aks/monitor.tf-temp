@@ -1,0 +1,21 @@
+resource "azurerm_monitor_activity_log_alert" "main" {
+  name                = "example-activitylogalert"
+  resource_group_name = data.azurerm_resource_group.aks.name
+  scopes              = [data.azurerm_resource_group.aks.id]
+  description         = "This alert will monitor AKS cluster health."
+
+  criteria {
+    resource_id    = azurerm_kubernetes_cluster.aks.id
+    operation_name = "Microsoft.Storage/storageAccounts/write"
+    category       = "ResourceHealth"
+    level          = "Error" # Critical
+  }
+
+  action {
+    action_group_id = var.action_group_id
+
+    webhook_properties = {
+      from = "terraform"
+    }
+  }
+}

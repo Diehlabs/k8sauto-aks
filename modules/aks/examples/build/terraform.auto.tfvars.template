@@ -1,0 +1,1 @@
+azdo_build_id = "$(Build.BuildId)"
