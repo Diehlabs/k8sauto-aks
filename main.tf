@@ -72,5 +72,5 @@ module "paks" {
     username = "myk8sboss"
     sshkey   = tls_private_key.paks.public_key_openssh
   }
-  network_security_group = azurerm_network_security_group.aks
+  #network_security_group = azurerm_network_security_group.aks
 }
