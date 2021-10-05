@@ -2,7 +2,7 @@ name: Terraform Configuration Run
 on:
   push:
     branches: 
-      - '*'
+      - '**'
   pull_request:
     branches:
       - 'main'
