@@ -77,5 +77,5 @@ jobs:
 
     - name: Terraform Apply
       id: apply
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      if: (github.event_name == 'push' || github.even_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
       run: terraform apply -auto-approve
