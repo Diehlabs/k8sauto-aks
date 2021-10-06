@@ -1,5 +1,5 @@
 resource "azurerm_network_interface" "vm" {
-  name                = "example-nic"
+  name                = "internal"
   location            = azurerm_resource_group.aks.location
   resource_group_name = azurerm_resource_group.aks.name
 
@@ -13,16 +13,16 @@ resource "azurerm_network_interface" "vm" {
 }
 
 resource "azurerm_network_interface" "vm_pub" {
-  name                = "example-nic"
+  name                = "public"
   location            = azurerm_resource_group.aks.location
   resource_group_name = azurerm_resource_group.aks.name
 
-    ip_configuration {
-        name                          = "public"
-        subnet_id                     = azurerm_subnet.aksnodesub.id
-        private_ip_address_allocation = "Dynamic"
-        public_ip_address_id          = azurerm_public_ip.vm.id
-    }
+  ip_configuration {
+    name                          = "public"
+    subnet_id                     = azurerm_subnet.aksnodesub.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.vm.id
+  }
 }
 
 resource "azurerm_linux_virtual_machine" "vm" {
@@ -71,9 +71,13 @@ resource "azurerm_public_ip" "vm" {
 }
 
 resource "null_resource" "cluster" {
-  depends_on = [azurerm_linux_virtual_machine.vm]
+  depends_on = [
+    azurerm_linux_virtual_machine.vm,
+    azurerm_network_interface_security_group_association.vm_ssh
+  ]
 
   connection {
+    user        = "adminuser"
     type        = "ssh"
     private_key = tls_private_key.paks.private_key_pem
     host        = azurerm_public_ip.vm.ip_address
@@ -103,7 +107,7 @@ resource "azurerm_network_security_group" "aksnodesub" {
   }
   tags = local.tags
 }
-resource "azurerm_network_interface_security_group_association" "example" {
+resource "azurerm_network_interface_security_group_association" "vm_ssh" {
   network_interface_id      = azurerm_network_interface.vm_pub.id
   network_security_group_id = azurerm_network_security_group.aksnodesub.id
 }
