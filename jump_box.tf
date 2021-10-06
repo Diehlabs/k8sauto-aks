@@ -54,15 +54,14 @@ resource "azurerm_public_ip" "vm" {
 resource "null_resource" "cluster" {
   depends_on = [azurerm_linux_virtual_machine.vm]
 
+  connection {
+    type        = "ssh"
+    private_key = tls_private_key.paks.private_key_pem
+    host        = azurerm_public_ip.vm.ip_address
+  }
+
   provisioner "file" {
     source      = module.paks.kube_config
     destination = "/root/kube_config_aks"
-
-    connection {
-      type        = "ssh"
-      username    = "thevitch"
-      private_key = tls_private_key.paks.private_key_pem
-      host        = azurerm_public_ip.vm.ip_address
-    }
   }
 }
