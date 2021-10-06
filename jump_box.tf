@@ -12,6 +12,19 @@ resource "azurerm_network_interface" "vm" {
   tags = local.tags
 }
 
+resource "azurerm_network_interface" "vm_pub" {
+  name                = "example-nic"
+  location            = azurerm_resource_group.aks.location
+  resource_group_name = azurerm_resource_group.aks.name
+
+    ip_configuration {
+        name                          = "public"
+        subnet_id                     = azurerm_subnet.aksnodesub.id
+        private_ip_address_allocation = "Dynamic"
+        public_ip_address_id          = azurerm_public_ip.vm.id
+    }
+}
+
 resource "azurerm_linux_virtual_machine" "vm" {
   name                            = "jump-box"
   location                        = azurerm_resource_group.aks.location
@@ -21,7 +34,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   disable_password_authentication = true
   network_interface_ids = [
     azurerm_network_interface.vm.id,
-    public_ip_address_id          = azurerm_public_ip.vm.id
+    azurerm_network_interface.vm_pub.id,
   ]
 
   admin_ssh_key {
@@ -72,8 +85,8 @@ resource "null_resource" "cluster" {
   }
 }
 
-resource "azurerm_network_security_group" "akscontrolsub" {
-  name                = "nsg-akscontrolsub"
+resource "azurerm_network_security_group" "aksnodesub" {
+  name                = "nsg-aksnodesub"
   location            = local.tags.region
   resource_group_name = azurerm_resource_group.aks.name
 
@@ -91,6 +104,6 @@ resource "azurerm_network_security_group" "akscontrolsub" {
   tags = local.tags
 }
 resource "azurerm_network_interface_security_group_association" "example" {
-  network_interface_id      = azurerm_network_interface.vm.id
-  network_security_group_id = azurerm_network_security_group.akscontrolsub.id
+  network_interface_id      = azurerm_network_interface.vm_pub.id
+  network_security_group_id = azurerm_network_security_group.aksnodesub.id
 }
