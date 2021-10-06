@@ -25,8 +25,8 @@ jobs:
       run: terraform init
 
     - name: Terraform Plan
-      id: apply
-      run: terraform plan -destroy -target=module.paks
+      id: plan
+      run: terraform plan -destroy -target="module.paks"
 
     - name: Terraform Destroy
       id: apply
