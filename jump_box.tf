@@ -61,7 +61,7 @@ resource "null_resource" "cluster" {
     connection {
       type        = "ssh"
       username    = "thevitch"
-      private_key = tls_private_key.paks.private_key_openssh
+      private_key = tls_private_key.paks.private_key_pem
       host        = azurerm_public_ip.vm.ip_address
     }
   }
