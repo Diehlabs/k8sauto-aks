@@ -1,7 +1,7 @@
 ---
 all:
   hosts:
-    '${ host_ip }': # this is a var
+    '${ host_ip }':
         ansible_become: yes
         ansible_connection: ssh
         ansible_python_interpreter: /usr/bin/python
