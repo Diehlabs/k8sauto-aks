@@ -86,14 +86,9 @@ resource "null_resource" "cluster" {
   }
 
   provisioner "remote-exec" {
-    inline = [
-      "sudo curl -LO https://dl.k8s.io/release/${var.k8s_version}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl",      
-      "if [[ -d \"/usr/local/bin\" ]]; then sudo mkdir /usr/local/bin fi",
-      "sudo chmod +x /usr/local/bin/kubectl",
-      "if [[ -d \"/home/adminuser/.kube\" ]]; then mkdir /home/adminuser/.kube fi"
-    ]
+    script = "scripts/script1.sh"
   }
-
+  
     provisioner "file" {
     content      = sensitive(module.paks.kube_config)
     destination = "/home/adminuser/.kube/config"
