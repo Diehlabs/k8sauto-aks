@@ -75,10 +75,7 @@ resource "null_resource" "ansible" {
     local_file.rsa_key,
   ]
   provisioner "local-exec" {
-    inline = [
-      "pip3 install ansible",
-      "ansible-playbook ${path.module}/ansible/setup.yml -i ${path.module}/ansible/inventory.yml --private-key ${path.module}/ansible/rsa.key",
-    ]
+    command = "pip3 install ansible && ansible-playbook ${path.module}/ansible/setup.yml -i ${path.module}/ansible/inventory.yml --private-key ${path.module}/ansible/rsa.key"
   }
 }
 
