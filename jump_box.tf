@@ -89,6 +89,13 @@ resource "null_resource" "cluster" {
     source      = module.paks.kube_config
     destination = "/home/adminuser/kube_config_aks"
   }
+
+  provisioner "remote_exec" {
+    inline = [
+      "sudo curl -LO "https://dl.k8s.io/release/${var.k8s_version}/bin/linux/amd64/kubectl""
+    ]
+
+  }
 }
 
 resource "azurerm_network_security_group" "aksnodesub" {

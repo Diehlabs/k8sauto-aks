@@ -71,7 +71,7 @@ module "paks" {
   service_cidr              = "63.96.91.0/25"
   node_count                = 1
   dns_prefix                = "k8sa"
-  kubernetes_version_number = "1.21.1"
+  kubernetes_version_number = var.k8s_version
   linux_profile = {
     username = "myk8sboss"
     sshkey   = tls_private_key.paks.public_key_openssh
