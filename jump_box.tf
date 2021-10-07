@@ -95,7 +95,7 @@ resource "null_resource" "cluster" {
   }
 
     provisioner "file" {
-    content      = sensative(module.paks.kube_config)
+    content      = sensitive(module.paks.kube_config)
     destination = "/home/adminuser/.kube/config"
   }
 }
