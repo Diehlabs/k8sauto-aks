@@ -9,21 +9,28 @@ resource "azurerm_network_interface" "vm" {
     private_ip_address_allocation = "Dynamic"
   }
 
-  tags = local.tags
-}
-
-resource "azurerm_network_interface" "vm_pub" {
-  name                = "public"
-  location            = azurerm_resource_group.aks.location
-  resource_group_name = azurerm_resource_group.aks.name
-
   ip_configuration {
     name                          = "public"
     subnet_id                     = azurerm_subnet.aksnodesub.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.vm.id
   }
+
+  tags = local.tags
 }
+
+# resource "azurerm_network_interface" "vm_pub" {
+#   name                = "public"
+#   location            = azurerm_resource_group.aks.location
+#   resource_group_name = azurerm_resource_group.aks.name
+
+#   ip_configuration {
+#     name                          = "public"
+#     subnet_id                     = azurerm_subnet.aksnodesub.id
+#     private_ip_address_allocation = "Dynamic"
+#     public_ip_address_id          = azurerm_public_ip.vm.id
+#   }
+# }
 
 resource "azurerm_linux_virtual_machine" "vm" {
   name                            = "jump-box"
@@ -32,9 +39,12 @@ resource "azurerm_linux_virtual_machine" "vm" {
   size                            = "Standard_B1LS"
   admin_username                  = "adminuser"
   disable_password_authentication = true
+  delete_os_disk_on_termination = true
+  delete_data_disks_on_termination = true
+
   network_interface_ids = [
     azurerm_network_interface.vm.id,
-    azurerm_network_interface.vm_pub.id,
+    #azurerm_network_interface.vm_pub.id,
   ]
 
   admin_ssh_key {
@@ -109,6 +119,7 @@ resource "azurerm_network_security_group" "aksnodesub" {
   tags = local.tags
 }
 resource "azurerm_network_interface_security_group_association" "vm_ssh" {
-  network_interface_id      = azurerm_network_interface.vm_pub.id
+  #network_interface_id      = azurerm_network_interface.vm_pub.id
+  network_interface_id      = azurerm_network_interface.vm.id
   network_security_group_id = azurerm_network_security_group.aksnodesub.id
 }
