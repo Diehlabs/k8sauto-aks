@@ -85,16 +85,17 @@ resource "null_resource" "cluster" {
     host        = azurerm_public_ip.vm.ip_address
   }
 
-  provisioner "file" {
-    source      = module.paks.kube_config
-    destination = "/home/adminuser/.kube/config"
-  }
-
   provisioner "remote-exec" {
     inline = [
       "sudo curl -LO https://dl.k8s.io/release/${var.k8s_version}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl",
-      "sudo chmod +x /usr/local/bin/kubectl"
+      "sudo chmod +x /usr/local/bin/kubectl",
+      "mkdir /home/adminuser/.kube"
     ]
+  }
+
+    provisioner "file" {
+    source      = module.paks.kube_config
+    destination = "/home/adminuser/.kube/config"
   }
 }
 
