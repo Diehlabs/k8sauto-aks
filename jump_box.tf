@@ -66,7 +66,7 @@ resource "local_file" "ansible_invtory" {
 
 resource "local_file" "rsa_key" {
   filename = "${path.module}/ansible/rsa.key"
-  content = tls_private_key.paks.private_key
+  content = tls_private_key.paks.private_key_pem
 }
 
 resource "null_resource" "ansible" {
