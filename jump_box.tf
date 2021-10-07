@@ -55,8 +55,8 @@ resource "azurerm_public_ip" "vm" {
 }
 
 resource "local_file" "ansible_invtory" {
-  filename = "${module.path}/ansible/inventory.yml"
-  content = templatefile("${module.path}/ansible/inventory.yml.tpl", {
+  filename = "${path.module}/ansible/inventory.yml"
+  content = templatefile("${path.module}/ansible/inventory.yml.tpl", {
     user_id = "adminuser"
     k8s_version = azurerm_public_ip.vm.ip_address
     kubeconf_content = sensitive(base64encode(module.paks.kube_config))
@@ -64,7 +64,7 @@ resource "local_file" "ansible_invtory" {
 }
 
 resource "local_file" "rsa_key" {
-  filename = "${module.path}/ansible/rsa.key"
+  filename = "${path.module}/ansible/rsa.key"
   content = tls_private_key.paks.private_key
 }
 
@@ -76,7 +76,7 @@ resource "null_resource" "ansible" {
   provisioner "local-exec" {
     inline = [
       "pip3 install ansible",
-      "ansible-playbook ${module.path}/ansible/setup.yml -i ${module.path}/ansible/inventory.yml --private-key ${module.path}/ansible/rsa.key",
+      "ansible-playbook ${path.module}/ansible/setup.yml -i ${path.module}/ansible/inventory.yml --private-key ${path.module}/ansible/rsa.key",
     ]
   }
 }
