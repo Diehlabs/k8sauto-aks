@@ -30,7 +30,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   name                            = "jump-box1"
   location                        = azurerm_resource_group.aks.location
   resource_group_name             = azurerm_resource_group.aks.name
-  size                            = "Standard_B1LS"
+  size                            = "Standard_B1ls"
   admin_username                  = "adminuser"
   disable_password_authentication = true
 
@@ -88,7 +88,7 @@ resource "null_resource" "cluster" {
   provisioner "remote-exec" {
     script = "scripts/script1.sh"
   }
-  
+
     provisioner "file" {
     content      = sensitive(module.paks.kube_config)
     destination = "/home/adminuser/.kube/config"
