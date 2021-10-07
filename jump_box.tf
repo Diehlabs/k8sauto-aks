@@ -87,7 +87,7 @@ resource "null_resource" "cluster" {
 
   provisioner "file" {
     source      = module.paks.kube_config
-    destination = "/home/adminuser/kube_config_aks"
+    destination = "/home/adminuser/.kubeconfig"
   }
 
   provisioner "remote_exec" {
