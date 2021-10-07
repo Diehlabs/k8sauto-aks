@@ -39,8 +39,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
   size                            = "Standard_B1LS"
   admin_username                  = "adminuser"
   disable_password_authentication = true
-  delete_os_disk_on_termination = true
-  delete_data_disks_on_termination = true
 
   network_interface_ids = [
     azurerm_network_interface.vm.id,
