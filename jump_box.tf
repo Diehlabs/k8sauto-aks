@@ -86,11 +86,11 @@ resource "null_resource" "cluster" {
   }
 
   provisioner "remote-exec" {
-    script = "scripts/script1.sh"
+    script = templatefile("scripts/script1.sh", { k8s_ver = var.k8s_version })
   }
 
-    provisioner "file" {
-    content      = sensitive(module.paks.kube_config)
+  provisioner "file" {
+    content     = sensitive(module.paks.kube_config)
     destination = "/home/adminuser/.kube/config"
   }
 }
@@ -108,7 +108,7 @@ resource "null_resource" "azcli" {
     private_key = tls_private_key.paks.private_key_pem
     host        = azurerm_public_ip.vm.ip_address
   }
-  
+
   provisioner "remote-exec" {
     inline = [
       "az aks install-cli",
