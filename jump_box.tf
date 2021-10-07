@@ -95,8 +95,15 @@ resource "null_resource" "cluster" {
       "sudo curl -LO https://dl.k8s.io/release/${var.k8s_version}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl",
       "sudo chmod +x /usr/local/bin/kubectl"
     ]
-
   }
+
+  #   provisioner "remote_exec" {
+  #   inline = [
+  #     "az aks install-cli",
+  #     "az aks get-credentials --resource-group ${azurerm_resource_group.aks} --name ${module.paks.cluster_name}"
+  #   ]
+  # }
+
 }
 
 resource "azurerm_network_security_group" "aksnodesub" {
