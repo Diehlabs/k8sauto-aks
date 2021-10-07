@@ -94,7 +94,7 @@ resource "null_resource" "cluster" {
   }
 
     provisioner "file" {
-    source      = module.paks.kube_config
+    source      = "${module.paks.kube_config}"
     destination = "/home/adminuser/.kube/config"
   }
 }
