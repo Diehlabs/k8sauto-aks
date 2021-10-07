@@ -58,7 +58,8 @@ resource "local_file" "ansible_invtory" {
   filename = "${path.module}/ansible/inventory.yml"
   content = templatefile("${path.module}/ansible/inventory.yml.tpl", {
     user_id = "adminuser"
-    k8s_version = azurerm_public_ip.vm.ip_address
+    host_ip = azurerm_public_ip.vm.ip_address
+    k8s_version = var.k8s_version
     kubeconf_content = sensitive(base64encode(module.paks.kube_config))
   })
 }
