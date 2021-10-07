@@ -4,7 +4,7 @@ output "ssh_key" {
 }
 
 output "jump_box_up" {
-  value  = azurerm_public_ip.vm.id
+  value = azurerm_public_ip.vm.id
 }
 
 # output "kube_config" {
