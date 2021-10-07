@@ -3,6 +3,10 @@ output "ssh_key" {
   sensitive = true
 }
 
+output "jump_box_up" {
+  value  = azurerm_public_ip.vm.id
+}
+
 # output "kube_config" {
 #   value     = module.paks.kube_config
 #   sensitive = true
