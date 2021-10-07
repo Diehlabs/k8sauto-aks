@@ -1,6 +1,7 @@
 #!/bin/bash
 sudo curl -LO https://dl.k8s.io/release/${var.k8s_version}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl
 
+echo "test:"
 ls -la /usr/local/bin
 
 if [[ -d \"/usr/local/bin\" ]];
