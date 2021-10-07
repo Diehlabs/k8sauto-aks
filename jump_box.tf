@@ -72,50 +72,53 @@ resource "azurerm_public_ip" "vm" {
   tags = local.tags
 }
 
-resource "null_resource" "cluster" {
-  depends_on = [
-    azurerm_linux_virtual_machine.vm,
-    azurerm_network_interface_security_group_association.vm_ssh
-  ]
+# resource "null_resource" "ansible" {
+# ansible-playbook setup.yml -i inventory.yml --private-key /tmp/aks.key
+# }
+# resource "null_resource" "cluster" {
+#   depends_on = [
+#     azurerm_linux_virtual_machine.vm,
+#     azurerm_network_interface_security_group_association.vm_ssh
+#   ]
 
-  connection {
-    user        = "adminuser"
-    type        = "ssh"
-    private_key = tls_private_key.paks.private_key_pem
-    host        = azurerm_public_ip.vm.ip_address
-  }
+#   connection {
+#     user        = "adminuser"
+#     type        = "ssh"
+#     private_key = tls_private_key.paks.private_key_pem
+#     host        = azurerm_public_ip.vm.ip_address
+#   }
 
-  provisioner "remote-exec" {
-    script = templatefile("scripts/script1.sh", { k8s_ver = var.k8s_version })
-  }
+#   provisioner "remote-exec" {
+#     script = templatefile("scripts/script1.sh", { k8s_ver = var.k8s_version })
+#   }
 
-  provisioner "file" {
-    content     = sensitive(module.paks.kube_config)
-    destination = "/home/adminuser/.kube/config"
-  }
-}
+#   provisioner "file" {
+#     content     = sensitive(module.paks.kube_config)
+#     destination = "/home/adminuser/.kube/config"
+#   }
+# }
 
-resource "null_resource" "azcli" {
-  depends_on = [
-    azurerm_linux_virtual_machine.vm,
-    azurerm_network_interface_security_group_association.vm_ssh,
-    null_resource.cluster
-  ]
+# resource "null_resource" "azcli" {
+#   depends_on = [
+#     azurerm_linux_virtual_machine.vm,
+#     azurerm_network_interface_security_group_association.vm_ssh,
+#     null_resource.cluster
+#   ]
 
-  connection {
-    user        = "adminuser"
-    type        = "ssh"
-    private_key = tls_private_key.paks.private_key_pem
-    host        = azurerm_public_ip.vm.ip_address
-  }
+#   connection {
+#     user        = "adminuser"
+#     type        = "ssh"
+#     private_key = tls_private_key.paks.private_key_pem
+#     host        = azurerm_public_ip.vm.ip_address
+#   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "az aks install-cli",
-      "az aks get-credentials --resource-group ${azurerm_resource_group.aks} --name ${module.paks.cluster_name}"
-    ]
-  }
-}
+#   provisioner "remote-exec" {
+#     inline = [
+#       "az aks install-cli",
+#       "az aks get-credentials --resource-group ${azurerm_resource_group.aks} --name ${module.paks.cluster_name}"
+#     ]
+#   }
+# }
 
 resource "azurerm_network_security_group" "aksnodesub" {
   name                = "nsg-aksnodesub"

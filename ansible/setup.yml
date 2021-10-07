@@ -1,0 +1,38 @@
+---
+- hosts:
+    all
+
+  tasks:
+  - name: dir
+    ansible.builtin.file:
+      state: directory
+      path: /usr/local/bin
+
+  - name: dir1
+    ansible.builtin.file:
+      state: directory
+      path: /home/adminuser/.kube
+      owner: adminuser # VAR
+      group: adminuser # VAR
+
+  - name: download kubectl
+    ansible.builtin.get_url:
+      #url: "https://dl.k8s.io/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
+      url: "https://storage.googleapis.com/kubernetes-release/release/v{{ kubectl_version }}/bin/{{ ansible_system|lower }}/amd64/kubectl"
+      dest: /usr/local/bin/kubectl
+      group: users
+      mode: 0664
+
+  - name: create kubeconf
+    ansible.builtin.copy:
+      dest: /home/adminuser/.kube/config
+      content: "{{ string.replace(kube_conf_content | b64decode, '\\n', '\n') }}"
+      owner: adminuser # VAR
+      group: adminuser # VAR
+
+  - name: install azure cli
+    ansible.builtin.shell:
+      cmd: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+      creates: /usr/bin/az
+
+  #ansible-playbook setup.yml -i inventory.yml --private-key /tmp/aks.key
