@@ -58,23 +58,23 @@ resource "tls_private_key" "paks" {
   rsa_bits  = "4096"
 }
 
-module "paks" {
-  source         = "./modules/aks"
-  tags           = local.tags
-  resource_group = azurerm_resource_group.aks
-  subnet         = azurerm_subnet.aksnodesub
-  api_server_authorized_ip_ranges = [
-    azurerm_virtual_network.aksvnet.address_space[0]
-  ]
-  docker_bridge_cidr        = "192.168.0.1/16"
-  dns_service_ip            = "63.96.91.126"
-  service_cidr              = "63.96.91.0/25"
-  node_count                = 1
-  dns_prefix                = "k8sa"
-  kubernetes_version_number = var.k8s_version
-  linux_profile = {
-    username = "myk8sboss"
-    sshkey   = tls_private_key.paks.public_key_openssh
-  }
-  network_security_group = azurerm_network_security_group.aks_nsg
-}
+# module "paks" {
+#   source         = "./modules/aks"
+#   tags           = local.tags
+#   resource_group = azurerm_resource_group.aks
+#   subnet         = azurerm_subnet.aksnodesub
+#   api_server_authorized_ip_ranges = [
+#     azurerm_virtual_network.aksvnet.address_space[0]
+#   ]
+#   docker_bridge_cidr        = "192.168.0.1/16"
+#   dns_service_ip            = "63.96.91.126"
+#   service_cidr              = "63.96.91.0/25"
+#   node_count                = 1
+#   dns_prefix                = "k8sa"
+#   kubernetes_version_number = var.k8s_version
+#   linux_profile = {
+#     username = "myk8sboss"
+#     sshkey   = tls_private_key.paks.public_key_openssh
+#   }
+#   network_security_group = azurerm_network_security_group.aks_nsg
+# }

@@ -12,8 +12,8 @@
     ansible.builtin.file:
       state: directory
       path: /home/adminuser/.kube
-      owner: adminuser # VAR
-      group: adminuser # VAR
+      owner: "{{ user_id }}"
+      group: "{{ user_id }}"
 
   - name: download kubectl
     ansible.builtin.get_url:
