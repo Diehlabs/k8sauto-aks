@@ -96,14 +96,26 @@ resource "null_resource" "cluster" {
       "sudo chmod +x /usr/local/bin/kubectl"
     ]
   }
+}
+resource "null_resource" "azcli" {
+    depends_on = [
+    azurerm_linux_virtual_machine.vm,
+    azurerm_network_interface_security_group_association.vm_ssh,
+    null_resource.cluster
+  ]
 
-  #   provisioner "remote_exec" {
-  #   inline = [
-  #     "az aks install-cli",
-  #     "az aks get-credentials --resource-group ${azurerm_resource_group.aks} --name ${module.paks.cluster_name}"
-  #   ]
-  # }
-
+  connection {
+    user        = "adminuser"
+    type        = "ssh"
+    private_key = tls_private_key.paks.private_key_pem
+    host        = azurerm_public_ip.vm.ip_address
+  }
+    provisioner "remote_exec" {
+    inline = [
+      "az aks install-cli",
+      "az aks get-credentials --resource-group ${azurerm_resource_group.aks} --name ${module.paks.cluster_name}"
+    ]
+  }
 }
 
 resource "azurerm_network_security_group" "aksnodesub" {
