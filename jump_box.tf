@@ -7,12 +7,6 @@ resource "azurerm_network_interface" "vm" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.akscontrolsub.id
     private_ip_address_allocation = "Dynamic"
-  }
-
-  ip_configuration {
-    name                          = "public"
-    subnet_id                     = azurerm_subnet.aksnodesub.id
-    private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.vm.id
   }
 
