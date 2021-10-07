@@ -92,7 +92,8 @@ resource "null_resource" "cluster" {
 
   provisioner "remote_exec" {
     inline = [
-      "sudo curl -LO "https://dl.k8s.io/release/${var.k8s_version}/bin/linux/amd64/kubectl""
+      "sudo curl -LO https://dl.k8s.io/release/${var.k8s_version}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl",
+      "sudo chmod +x /usr/local/bin/kubectl"
     ]
 
   }
