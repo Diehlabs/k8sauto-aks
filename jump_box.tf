@@ -90,15 +90,16 @@ resource "null_resource" "cluster" {
     destination = "/home/adminuser/.kube/config"
   }
 
-  provisioner "remote_exec" {
+  provisioner "remote-exec" {
     inline = [
       "sudo curl -LO https://dl.k8s.io/release/${var.k8s_version}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl",
       "sudo chmod +x /usr/local/bin/kubectl"
     ]
   }
 }
+
 resource "null_resource" "azcli" {
-    depends_on = [
+  depends_on = [
     azurerm_linux_virtual_machine.vm,
     azurerm_network_interface_security_group_association.vm_ssh,
     null_resource.cluster
@@ -110,7 +111,8 @@ resource "null_resource" "azcli" {
     private_key = tls_private_key.paks.private_key_pem
     host        = azurerm_public_ip.vm.ip_address
   }
-    provisioner "remote_exec" {
+  
+  provisioner "remote-exec" {
     inline = [
       "az aks install-cli",
       "az aks get-credentials --resource-group ${azurerm_resource_group.aks} --name ${module.paks.cluster_name}"
@@ -142,6 +144,6 @@ resource "azurerm_network_interface_security_group_association" "vm_ssh" {
   network_security_group_id = azurerm_network_security_group.aksnodesub.id
 }
 
-output "jump_box_up" {
+output "jump_box_ip" {
   value = azurerm_public_ip.vm.id
 }
