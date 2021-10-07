@@ -85,7 +85,7 @@ resource "null_resource" "cluster" {
 
   provisioner "file" {
     #source      = module.paks.kube_config
-    content = "HALLO!"
+    content     = "HALLO!"
     destination = "/root/kube_config_aks"
   }
 }
