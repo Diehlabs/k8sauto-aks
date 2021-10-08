@@ -70,7 +70,7 @@ module "paks" {
   # ]
   docker_bridge_cidr        = "192.168.0.1/16"
   dns_service_ip            = "172.16.0.126"
-  service_cidr              = "172.16.0/25"
+  service_cidr              = "172.16.0.0/25"
   node_count                = 1
   dns_prefix                = "k8sa"
   kubernetes_version_number = var.k8s_version
