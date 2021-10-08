@@ -32,6 +32,11 @@ output "host" {
   sensitive = true
 }
 
+output "kube_admin_config" {
+  value     = azurerm_kubernetes_cluster.aks.kube_admin_config_raw
+  sensitive = true
+}
+
 output "kube_admin_password" {
   value     = azurerm_kubernetes_cluster.aks.kube_admin_config.0.password
   sensitive = true
