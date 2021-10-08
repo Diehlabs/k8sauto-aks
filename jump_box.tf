@@ -75,7 +75,10 @@ resource "null_resource" "ansible" {
     local_file.rsa_key,
   ]
   provisioner "local-exec" {
-    command = "pip3 install ansible && ansible-playbook ${path.module}/ansible/setup.yml -i ${path.module}/ansible/inventory.yml --private-key ${path.module}/ansible/rsa.key"
+    command = "chmod 600 ${path.module}/ansible/rsa.key"
+  }
+  provisioner "local-exec" {
+    command = "ansible-playbook ${path.module}/ansible/setup.yml -i ${path.module}/ansible/inventory.yml --private-key ${path.module}/ansible/rsa.key"
   }
 }
 
