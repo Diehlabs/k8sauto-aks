@@ -1,7 +1,7 @@
 name: Terraform Configuration Run
 on:
   push:
-    branches: 
+    branches:
       - '**'
   pull_request:
     branches:
@@ -62,17 +62,17 @@ jobs:
           #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
           #### Terraform Validation 🤖\`${{ steps.validate.outputs.stdout }}\`
           #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-          
+
           <details><summary>Show Plan</summary>
-          
+
           \`\`\`\n
           ${process.env.PLAN}
           \`\`\`
-          
+
           </details>
-          
+
           *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
-            
+
           github.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,

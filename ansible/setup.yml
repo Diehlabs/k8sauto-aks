@@ -36,7 +36,7 @@
       src: "./{{item}}"
       owner: adminuser # VAR
       group: adminuser # VAR
-    loop: 
+    loop:
       - inventory.yml
 
   # - name: install azure cli

@@ -155,5 +155,5 @@ resource "azurerm_network_interface_security_group_association" "vm_ssh" {
 }
 
 output "jump_box_ip" {
-  value = azurerm_public_ip.vm.id
+  value = azurerm_public_ip.vm.ip_address
 }

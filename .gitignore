@@ -9,3 +9,5 @@
 *.tfvars
 
 .terraform.lock.hcl
+inventory.yml
+kubeconfig.yaml
