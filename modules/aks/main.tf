@@ -1,13 +1,13 @@
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_kubernetes_cluster" "aks" {
-  name                = local.cluster_name
-  location            = var.resource_group.location
-  resource_group_name = var.resource_group.name
-  dns_prefix          = var.dns_prefix
-  kubernetes_version  = var.kubernetes_version_number
-  #private_dns_zone_id     = var.private_dns_zone_id
-  private_cluster_enabled = var.private_cluster_enabled
+  name                    = local.cluster_name
+  location                = var.resource_group.location
+  resource_group_name     = var.resource_group.name
+  dns_prefix              = var.dns_prefix
+  kubernetes_version      = var.kubernetes_version_number
+  private_dns_zone_id     = "System"
+  private_cluster_enabled = true
 
   default_node_pool {
     name            = "nodes"
@@ -37,7 +37,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   # verify that these items are needed, we think they are, possibly srd requirement
   network_profile {
-    network_plugin     = "azure"
+    network_plugin     = "kubenet"
     network_policy     = "calico"
     load_balancer_sku  = "standard"
     docker_bridge_cidr = var.docker_bridge_cidr
