@@ -30,9 +30,18 @@
       owner: adminuser # VAR
       group: adminuser # VAR
 
-  - name: install azure cli
-    ansible.builtin.shell:
-      cmd: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-      creates: /usr/bin/az
+  - name: copy ansible stuff
+    ansible.builtin.copy:
+      dest: "/home/adminuser/{{ item }}"
+      src: "./{{item}}"
+      owner: adminuser # VAR
+      group: adminuser # VAR
+    loop: 
+      - inventory.yml
+
+  # - name: install azure cli
+  #   ansible.builtin.shell:
+  #     cmd: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+  #     creates: /usr/bin/az
 
   #ansible-playbook setup.yml -i inventory.yml --private-key /tmp/aks.key
