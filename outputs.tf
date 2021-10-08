@@ -1,5 +1,5 @@
 output "ssh_key" {
-  value     = base64encode(tls_private_key.paks)
+  value     = base64encode(tls_private_key.paks.private_key_pem)
   sensitive = true
 }
 
