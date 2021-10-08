@@ -26,4 +26,4 @@ repos:
     #- id: terraform_tfsec
     - id: terraform_docs # https://terraform-docs.io/user-guide/introduction/
     - id: checkov
-      stages: [post-commit]
+      stages: [push]
