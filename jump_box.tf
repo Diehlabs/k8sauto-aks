@@ -54,7 +54,7 @@ resource "azurerm_public_ip" "vm" {
   tags = local.tags
 }
 
-resource "local_file" "ansible_invtory" {
+resource "local_file" "ansible_inventory" {
   filename = "${path.module}/ansible/inventory.yml"
   content = templatefile("${path.module}/ansible/inventory.yml.tpl", {
     user_id = "adminuser"
