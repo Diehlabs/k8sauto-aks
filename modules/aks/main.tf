@@ -54,7 +54,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     }
   }
 
-  api_server_authorized_ip_ranges = var.api_server_authorized_ip_ranges
+  # api_server_authorized_ip_ranges = var.api_server_authorized_ip_ranges
 }
 
 resource "azurerm_network_security_rule" "aks" {

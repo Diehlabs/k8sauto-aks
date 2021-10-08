@@ -63,11 +63,11 @@ module "paks" {
   tags           = local.tags
   resource_group = azurerm_resource_group.aks
   subnet         = azurerm_subnet.aksnodesub
-  api_server_authorized_ip_ranges = [
-    #azurerm_virtual_network.aksvnet.address_space[0],
-    azurerm_subnet.aksnodesub.address_prefixes[0]
+  # api_server_authorized_ip_ranges = [
+  #   #azurerm_virtual_network.aksvnet.address_space[0],
+  #   azurerm_subnet.aksnodesub.address_prefixes[0]
 
-  ]
+  # ]
   docker_bridge_cidr        = "192.168.0.1/16"
   dns_service_ip            = "63.96.91.126"
   service_cidr              = "63.96.91.0/25"

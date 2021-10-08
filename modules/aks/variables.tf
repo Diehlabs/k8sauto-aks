@@ -1,7 +1,7 @@
-variable "api_server_authorized_ip_ranges" {
-  description = "Authorized IP ranages for API server. This is a list of one or more network addresses in CIDR format."
-  type        = list(string)
-}
+# variable "api_server_authorized_ip_ranges" {
+#   description = "Authorized IP ranages for API server. This is a list of one or more network addresses in CIDR format."
+#   type        = list(string)
+# }
 
 variable "node_count" {
   description = "Number of nodes in cluster"
