@@ -65,6 +65,10 @@ resource "local_file" "ansible_inventory" {
   })
 }
 
+output "ansible_inventory" {
+  value = local_file.ansible_inventory.content
+}
+
 resource "local_file" "rsa_key" {
   filename = "${path.module}/ansible/rsa.key"
   sensitive_content = tls_private_key.paks.private_key_pem
