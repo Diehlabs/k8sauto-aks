@@ -26,7 +26,7 @@
   - name: create kubeconf
     ansible.builtin.copy:
       dest: /home/adminuser/.kube/config
-      content: "{{ kube_conf_content | b64decode | replace('\n', '\\n') }}"
+      content: "{{ kube_conf_content | b64decode | replace('\\n', '\n') }}"
       owner: adminuser # VAR
       group: adminuser # VAR
 
