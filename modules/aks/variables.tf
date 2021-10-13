@@ -118,3 +118,8 @@ variable "network_security_group" {
     resource_group_name = string
   })
 }
+
+variable "cluster_admin_ids" {
+  type        = list(any)
+  description = "A list of Azure AD ObjectIDs that will receive admin rights to the cluster."
+}

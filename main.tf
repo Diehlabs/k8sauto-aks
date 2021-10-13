@@ -79,4 +79,5 @@ module "paks" {
     sshkey   = tls_private_key.paks.public_key_openssh
   }
   network_security_group = azurerm_network_security_group.aks_nsg
+  cluster_admin_ids      = ["9ba4a348-227d-4411-bc37-3fb81ee8bc48"]
 }

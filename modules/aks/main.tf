@@ -50,7 +50,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
   role_based_access_control {
     enabled = true
     azure_active_directory {
-      managed = true
+      managed                = true
+      admin_group_object_ids = var.cluster_admin_ids
     }
   }
 

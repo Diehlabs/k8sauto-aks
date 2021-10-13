@@ -21,10 +21,10 @@ repos:
     - id: terraform-validate
     - id: terraform-fmt
 
-- repo: git://github.com/antonbabenko/pre-commit-terraform
-  rev: v1.52.0 # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
-  hooks:
-    #- id: terraform_tfsec
-    - id: terraform_docs # https://terraform-docs.io/user-guide/introduction/
-    - id: checkov
-      stages: [commit]
+# - repo: git://github.com/antonbabenko/pre-commit-terraform
+#   rev: v1.52.0 # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
+#   hooks:
+#     #- id: terraform_tfsec
+#     - id: terraform_docs # https://terraform-docs.io/user-guide/introduction/
+#     - id: checkov
+#       stages: [commit]
