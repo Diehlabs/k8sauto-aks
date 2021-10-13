@@ -44,7 +44,10 @@ jobs:
 
     - name: Install requirements
       id: pip
-      run: pip3 install -r ansible/requirements.txt
+      run: |
+        if [[ -f ansible/requirements.txt ]]; then
+          pip3 install -r ansible/requirements.txt
+        fi
 
     - name: Terraform Plan
       id: plan
