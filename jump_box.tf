@@ -5,7 +5,7 @@ resource "azurerm_network_interface" "vm" {
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = azurerm_subnet.akscontrolsub.id
+    subnet_id                     = data.terraform_remote_state.core.outputs.subnets["control"]
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.vm.id
   }
@@ -27,7 +27,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   admin_ssh_key {
     username   = "adminuser"
-    public_key = tls_private_key.paks.public_key_openssh
+    public_key = data.terraform_remote_state.core.outputs.ssh_key.public_key_openssh
   }
 
   os_disk {
@@ -54,7 +54,7 @@ resource "azurerm_public_ip" "vm" {
   tags = local.tags
 }
 
-resource "azurerm_network_security_group" "aksnodesub" {
+resource "azurerm_network_security_group" "jump_box_ssh" {
   name                = "nsg-aksnodesub"
   location            = local.tags.region
   resource_group_name = azurerm_resource_group.aks.name
@@ -72,9 +72,10 @@ resource "azurerm_network_security_group" "aksnodesub" {
   }
   tags = local.tags
 }
+
 resource "azurerm_network_interface_security_group_association" "vm_ssh" {
   network_interface_id      = azurerm_network_interface.vm.id
-  network_security_group_id = azurerm_network_security_group.aksnodesub.id
+  network_security_group_id = azurerm_network_security_group.jump_box_ssh.id
 }
 
 output "jump_box_ip" {

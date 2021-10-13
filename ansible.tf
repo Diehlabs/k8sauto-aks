@@ -16,7 +16,7 @@ output "ansible_inventory" {
 
 resource "local_file" "rsa_key" {
   filename          = "${path.module}/ansible/rsa.key"
-  sensitive_content = tls_private_key.paks.private_key_pem
+  sensitive_content = data.terraform_remote_state.core.outputs.ssh_key.private_key_pem
   file_permission   = "0600"
 }
 
