@@ -17,6 +17,7 @@ env:
   ARM_CLIENT_SECRET: ${{ secrets.TGO_ARM_CLIENT_SECRET }}
   ARM_SUBSCRIPTION_ID: 'e5c064d7-9c8f-4e8d-ba57-5da9f1610cb3'
   ARM_TENANT_ID: 'ea7c73d0-fb18-4161-8331-8341717ba99c'
+  TF_VAR_k8s_version: '1.21.1'
 
 jobs:
   terraform_plan:
@@ -32,6 +33,7 @@ jobs:
     - name: Terrform Init
       id: tf_init
       run: terraform init
+
     # - uses: cschleiden/replace-tokens@v1
     #   with:
     #     tokenPrefix: '$('
