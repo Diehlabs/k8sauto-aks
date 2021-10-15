@@ -3,7 +3,7 @@ data "terraform_remote_state" "core" {
   config = {
     organization = "Diehlabs"
     workspaces = {
-      name = "iac-azure-k8sauto"
+      name = "k8sauto-core-azure"
     }
   }
 }

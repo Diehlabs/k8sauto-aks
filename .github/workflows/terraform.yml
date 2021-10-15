@@ -41,17 +41,6 @@ jobs:
     # - name: Rename vars file
     #   run: mv terraform.auto.tfvars.template terraform.auto.tfvars
 
-    - name: Install requirements
-      id: requirements
-      run: |
-        if [[ -f ansible/requirements.txt ]]; then
-          pip3 install -r ansible/requirements.txt
-        fi
-        if [[ -f ansible/requirements.yaml ]]; then
-          ansible-galaxy install -r ansible/requirements.yaml
-        fi
-
-
     - name: Terraform Plan
       id: plan
       run: terraform plan -no-color
@@ -87,6 +76,16 @@ jobs:
             repo: context.repo.repo,
             body: output
           })
+
+    - name: Install requirements
+      id: requirements
+      run: |
+        if [[ -f ansible/requirements.txt ]]; then
+          pip3 install -r ansible/requirements.txt
+        fi
+        if [[ -f ansible/requirements.yaml ]]; then
+          ansible-galaxy install -r ansible/requirements.yaml
+        fi
 
     - name: Terraform Apply
       id: apply
