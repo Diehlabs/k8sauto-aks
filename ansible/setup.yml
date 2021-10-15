@@ -13,7 +13,7 @@
       name: diehlabs-kubetools
       vars:
         ktcl_version: "{{ kubectl_version }}"
-        ktl_user: "{{ user_id }}"
+        ktl_user_id: "{{ user_id }}"
 
   - name: Ensure dir exists (/home/adminuser/.kube)
     ansible.builtin.file:
