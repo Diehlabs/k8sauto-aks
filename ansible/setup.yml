@@ -11,9 +11,9 @@
   - name: Setup kubernetes tools
     include_role:
       name: diehlabs-kubetools
-      vars:
-        ktcl_version: "{{ kubectl_version }}"
-        ktl_user_id: "{{ user_id }}"
+    vars:
+      ktcl_version: "{{ kubectl_version }}"
+      ktl_user_id: "{{ user_id }}"
 
   - name: Ensure dir exists (/home/adminuser/.kube)
     ansible.builtin.file:
