@@ -42,11 +42,15 @@ jobs:
     #   run: mv terraform.auto.tfvars.template terraform.auto.tfvars
 
     - name: Install requirements
-      id: pip
+      id: requirements
       run: |
         if [[ -f ansible/requirements.txt ]]; then
           pip3 install -r ansible/requirements.txt
         fi
+        if [[ -f ansible/requirements.yaml ]]; then
+          ansible-galaxy install -r ansible/requirements.yaml
+        fi
+
 
     - name: Terraform Plan
       id: plan

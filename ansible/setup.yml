@@ -8,21 +8,19 @@
       state: directory
       path: /usr/local/bin
 
+  - name: Setup kubernetes tools
+    include_role:
+      name: diehlabs-kubetools
+      vars:
+        ktcl_version: "{{ kubectl_version }}"
+        ktl_user: "{{ user_id }}"
+
   - name: Ensure dir exists (/home/adminuser/.kube)
     ansible.builtin.file:
       state: directory
       path: /home/adminuser/.kube
       owner: "{{ user_id }}"
       group: "{{ user_id }}"
-
-  - name: download kubectl
-    ansible.builtin.get_url:
-      #url: "https://dl.k8s.io/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
-      url: "https://storage.googleapis.com/kubernetes-release/release/v{{ kubectl_version }}/bin/{{ ansible_system|lower }}/amd64/kubectl"
-      dest: /usr/local/bin/kubectl
-      owner: "{{ user_id }}"
-      group: "{{ user_id }}"
-      mode: "u=rx,g=rx,o=r"
 
   - name: Copy admin kube conf file
     ansible.builtin.copy:
@@ -40,37 +38,8 @@
     loop:
       - inventory.yml
 
-  - name: Ensure rc files exist
-    ansible.builtin.file:
-      state: touch
-      mode: u=rw,g=rw,o=r
-      owner: "{{ user_id }}"
-      group: "{{ user_id }}"
-      path: "{{ item }}"
-      access_time: preserve
-      modification_time: preserve
-    loop:
-      - "/home/{{ user_id }}/.bashrc"
-      - "/home/{{ user_id }}/.vimrc"
 
-  - name: Configure .bashrc for k8s
-    ansible.builtin.lineinfile:
-      path: "/home/{{ user_id }}/.bashrc"
-      line: "{{ item }}"
-    loop:
-      - 'source <(kubectl completion bash)'
-      - 'alias k=kubectl'
-      - 'complete -F __start_kubectl k'
-      - 'export do="-o yaml --dry-run=client"'
 
-  - name: Configure vimrc for kube usage
-    ansible.builtin.lineinfile:
-      path: "/home/{{ user_id }}/.vimrc"
-      line: "{{ item }}"
-    loop:
-      - 'set expandtab'
-      - 'set tabstop=2'
-      - 'set shiftwidth=2'
 
   # - name: install azure cli
   #   ansible.builtin.shell:

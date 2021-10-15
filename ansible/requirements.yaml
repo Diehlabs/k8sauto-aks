@@ -1,0 +1,7 @@
+---
+collections: []
+
+roles:
+  - name: diehlabs-kubetools
+    src: https://github.com/Diehlabs/ansible-role-kubetools
+    version: v0.0.1
