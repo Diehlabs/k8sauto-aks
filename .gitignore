@@ -10,4 +10,5 @@
 
 .terraform.lock.hcl
 inventory.yml
-kubeconf.yaml
+kubeconf.*
+*.key
