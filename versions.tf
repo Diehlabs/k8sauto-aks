@@ -5,7 +5,7 @@ terraform {
       name = "k8sauto-aks"
     }
   }
-  required_version = "~> 1.1.0"
+  required_version = "~> 1.0.0"
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
