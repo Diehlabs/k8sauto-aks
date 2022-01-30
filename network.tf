@@ -37,6 +37,6 @@ resource "azurerm_network_security_rule" "aks" {
 
 resource "azurerm_private_dns_zone" "tgo" {
   name                = "tgo.privatelink.centralus.azmk8s.io"
-  resource_group_name = azurerm_resource_group.aks
+  resource_group_name = azurerm_resource_group.aks.name
   tags                = local.tags
 }
