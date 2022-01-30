@@ -1,5 +1,17 @@
 data "azurerm_client_config" "current" {}
 
+resource "azurerm_user_assigned_identity" "dns" {
+  name                = "aks-dns-identity"
+  resource_group_name = var.resource_group.name
+  location            = var.resource_group.location
+}
+
+resource "azurerm_role_assignment" "dns" {
+  scope                = var.private_dns_zone_id
+  role_definition_name = "Private DNS Zone Contributor"
+  principal_id         = azurerm_user_assigned_identity.dns.principal_id
+}
+
 resource "azurerm_kubernetes_cluster" "aks" {
   name                    = local.cluster_name
   location                = var.resource_group.location
@@ -19,7 +31,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   identity {
-    type = "SystemAssigned"
+    type                      = "UserAssigned"
+    user_assigned_identity_id = azurerm_user_assigned_identity.dns.id
   }
 
   linux_profile {
