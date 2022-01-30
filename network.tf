@@ -34,3 +34,9 @@ resource "azurerm_network_security_rule" "aks" {
   resource_group_name         = azurerm_resource_group.aks.name
   network_security_group_name = azurerm_network_security_group.aks.name
 }
+
+resource "azurerm_private_dns_zone" "tgo" {
+  name                = "tgo.privatelink.centralus.azmk8s.io"
+  resource_group_name = azurerm_resource_group.aks
+  tags                = local.tags
+}
