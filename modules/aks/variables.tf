@@ -66,12 +66,6 @@ variable "linux_profile" {
   })
 }
 
-variable "nsg_rules" {
-  description = "List of NSG rules to create"
-  type        = any
-  default     = {}
-}
-
 variable "docker_bridge_cidr" {
   type        = string
   description = "IP address (in CIDR notation) used as the Docker bridge IP address on nodes. Changing this forces a new resource to be created."
@@ -108,14 +102,6 @@ variable "tags" {
     region            = string
     owner             = string
     technical_contact = string
-  })
-}
-
-variable "network_security_group" {
-  description = "The network security group to add AKS specific network rules to"
-  type = object({
-    name                = string
-    resource_group_name = string
   })
 }
 
