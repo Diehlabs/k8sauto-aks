@@ -1,14 +1,27 @@
 data "azurerm_client_config" "current" {}
 
+data "azurerm_subscription" "primary" {}
+
+data "azurerm_role_definition" "privateDNSZoneContrib" {
+  name = "Private DNS Zone Contributor"
+}
+
 resource "azurerm_user_assigned_identity" "dns" {
   name                = "aks-dns-identity"
   resource_group_name = var.resource_group.name
   location            = var.resource_group.location
 }
 
-resource "azurerm_role_assignment" "dns" {
-  scope                = var.private_dns_zone_id
+
+resource "azurerm_role_assignment" "aks-dns" {
+  scope                = data.azurerm_subscription.primary.id
   role_definition_name = "Private DNS Zone Contributor"
+  principal_id         = azurerm_user_assigned_identity.dns.principal_id
+}
+
+resource "azurerm_role_assignment" "aks-network" {
+  scope                = data.azurerm_subscription.primary.id
+  role_definition_name = "Network Contributor"
   principal_id         = azurerm_user_assigned_identity.dns.principal_id
 }
 
