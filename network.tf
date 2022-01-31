@@ -40,3 +40,11 @@ resource "azurerm_private_dns_zone" "tgo" {
   resource_group_name = azurerm_resource_group.aks.name
   tags                = local.tags
 }
+
+resource "azurerm_private_dns_zone_virtual_network_link" "tgo" {
+  name                  = "aksDnsToVnetLink"
+  resource_group_name   = azurerm_resource_group.aks.name
+  private_dns_zone_name = azurerm_private_dns_zone.tgo.name
+  virtual_network_id    = azurerm_virtual_network.aks.id
+  tags                  = local.tags
+}

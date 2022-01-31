@@ -3,9 +3,9 @@ locals {
     owner             = "tgo"
     region            = "centralus"
     product           = "myaks"
-    cost_center       = "0666"
+    cost_center       = "0000"
     environment       = "notprod"
-    technical_contact = "lynch"
+    technical_contact = "notdiehl"
   }
   nsg_rules = {
     HTTP = {
