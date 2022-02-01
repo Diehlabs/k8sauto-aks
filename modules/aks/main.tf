@@ -80,6 +80,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
       admin_group_object_ids = var.cluster_admin_ids
     }
   }
+  depends_on = [
+    azurerm_role_assignment.aks-network,
+  ]
 
   # api_server_authorized_ip_ranges = var.api_server_authorized_ip_ranges
 }
