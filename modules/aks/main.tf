@@ -26,13 +26,13 @@ resource "azurerm_role_assignment" "aks-network" {
 }
 
 resource "azurerm_kubernetes_cluster" "aks" {
-  name                    = local.cluster_name
-  location                = var.resource_group.location
-  resource_group_name     = var.resource_group.name
-  kubernetes_version      = var.kubernetes_version_number
-  private_cluster_enabled = false
-  dns_prefix              = var.dns_prefix
-  private_dns_zone_id     = var.private_dns_zone_id
+  name                = local.cluster_name
+  location            = var.resource_group.location
+  resource_group_name = var.resource_group.name
+  kubernetes_version  = var.kubernetes_version_number
+  dns_prefix          = var.dns_prefix
+  #private_cluster_enabled = var.private_cluster_enabled
+  #private_dns_zone_id     = var.private_dns_zone_id
 
   default_node_pool {
     name            = "nodes"
@@ -44,9 +44,12 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   identity {
-    type                      = "UserAssigned"
-    user_assigned_identity_id = azurerm_user_assigned_identity.dns.id
+    type = "SystemAssigned"
   }
+  #identity {
+  #  type                      = "UserAssigned"
+  #  user_assigned_identity_id = azurerm_user_assigned_identity.dns.id
+  #}
 
   linux_profile {
     admin_username = var.linux_profile.username

@@ -11,6 +11,7 @@ variable "node_count" {
 variable "dns_prefix" {
   description = "Cluster DNS Name Prefix"
   type        = string
+  default     = ""
 }
 
 variable "kubernetes_version_number" {

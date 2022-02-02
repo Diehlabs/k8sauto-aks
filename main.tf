@@ -23,8 +23,9 @@ module "paks" {
     username = "adminuser"
     sshkey   = tls_private_key.aks.public_key_openssh
   }
-  cluster_admin_ids   = ["9ba4a348-227d-4411-bc37-3fb81ee8bc48"]
-  private_dns_zone_id = azurerm_private_dns_zone.tgo.id
+  cluster_admin_ids       = ["9ba4a348-227d-4411-bc37-3fb81ee8bc48"]
+  private_dns_zone_id     = azurerm_private_dns_zone.tgo.id
+  private_cluster_enabled = false
 }
 
 resource "local_file" "kube_config_admin" {
